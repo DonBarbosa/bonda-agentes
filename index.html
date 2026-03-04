@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BONDA OS — Agentes</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f0f; color: #f0f0f0; min-height: 100vh; padding: 20px; }
+  .header { text-align: center; padding: 30px 0 20px; }
+  .header h1 { font-size: 1.6rem; font-weight: 700; letter-spacing: 2px; color: #fff; }
+  .header p { color: #888; font-size: 0.85rem; margin-top: 6px; }
+  .agents { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; max-width: 900px; margin: 0 auto; }
+  .card { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 12px; padding: 20px; }
+  .card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+  .card-header h2 { font-size: 1rem; font-weight: 600; }
+  .badge { font-size: 0.7rem; padding: 2px 8px; border-radius: 20px; font-weight: 600; }
+  .margem .badge { background: #1a3a1a; color: #4ade80; }
+  .mercado .badge { background: #2a1a0a; color: #fb923c; }
+  .care .badge { background: #1a1a3a; color: #818cf8; }
+  .lab .badge { background: #2a1a1a; color: #f87171; }
+  .field { margin-bottom: 12px; }
+  .field label { display: block; font-size: 0.75rem; color: #888; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px; }
+  .field input { width: 100%; background: #111; border: 1px solid #333; border-radius: 6px; padding: 8px 12px; color: #fff; font-size: 0.9rem; outline: none; }
+  .btn { width: 100%; padding: 10px; border: none; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; margin-top: 4px; }
+  .margem .btn { background: #4ade80; color: #000; }
+  .mercado .btn { background: #fb923c; color: #000; }
+  .care .btn { background: #818cf8; color: #000; }
+  .lab .btn { background: #f87171; color: #000; }
+  .status { margin-top: 10px; font-size: 0.8rem; text-align: center; min-height: 20px; }
+  .status.ok { color: #4ade80; }
+  .status.err { color: #f87171; }
+  .status.loading { color: #888; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>BONDA OS</h1>
+  <p>Sistema de Agentes — Painel de Controle</p>
+</div>
+<div class="agents">
+  <div class="card margem">
+    <div class="card-header"><span>💰</span><h2>MARGEM</h2><span class="badge">Finanças & Preço</span></div>
+    <div class="field"><label>SKU</label><input id="m-sku" placeholder="STELIQ" /></div>
+    <div class="field"><label>Preço Proposto (MXN)</label><input id="m-preco" type="number" placeholder="25" /></div>
+    <div class="field"><label>Canal</label><input id="m-canal" placeholder="B2B" /></div>
+    <button class="btn" onclick="disparar('margem')">▶ Analisar Margem</button>
+    <div class="status" id="status-margem"></div>
+  </div>
+  <div class="card mercado">
+    <div class="card-header"><span>🟠</span><h2>MERCADO</h2><span class="badge">Marketplaces</span></div>
+    <div class="field"><label>SKU</label><input id="me-sku" placeholder="ALULOSA" /></div>
+    <button class="btn" onclick="disparar('mercado')">▶ Analisar Marketplace</button>
+    <div class="status" id="status-mercado"></div>
+  </div>
+  <div class="card care">
+    <div class="card-header"><span>🤝</span><h2>CARE</h2><span class="badge">Atendimento</span></div>
+    <div class="field"><label>Número do Pedido</label><input id="c-pedido" placeholder="SO001" /></div>
+    <button class="btn" onclick="disparar('care')">▶ Consultar Pedido</button>
+    <div class="status" id="status-care"></div>
+  </div>
+  <div class="card lab">
+    <div class="card-header"><span>🧪</span><h2>LAB</h2><span class="badge">Formulação</span></div>
+    <div class="field"><label>Lote</label><input id="l-lote" placeholder="INICIO-2026" /></div>
+    <button class="btn" onclick="disparar('lab')">▶ Analisar Lote</button>
+    <div class="status" id="status-lab"></div>
+  </div>
+</div>
+<script>
+const webhooks = {
+  margem:  'https://hook.eu1.make.com/qhh8mfzlrhgc3ifv3ksa6qemrvyfnahl',
+  mercado: 'https://hook.eu1.make.com/ypwwrkn39uzcrotrsm7192t5ss2pdt4l',
+  care:    'https://hook.eu1.make.com/r47i8ydqjwljv41iiqhxwniq3p29am2h',
+  lab:     'https://hook.eu1.make.com/vcur34fk5latcdaoeh8nnsrfx31vd1j4'
+};
+function v(id) { return document.getElementById(id)
