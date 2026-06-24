@@ -1,0 +1,13 @@
+# Secrets — never commit the real env
+.env
+.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# BONDA invoice watcher runtime logs
+.bonda/
+*.log
