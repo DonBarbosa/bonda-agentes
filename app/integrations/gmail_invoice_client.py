@@ -10,7 +10,7 @@ Authentication: Gmail App Password (16 chars, generated at
 myaccount.google.com → Security → App Passwords). NO Google Cloud Project
 required.
 
-Idempotency: messages are tagged with the Gmail label "📄 Facturas/Procesado"
+Idempotency: messages are tagged with the Gmail label "BondaFacturas/Procesado"
 via the X-GM-LABELS IMAP extension, and excluded from future searches.
 
 Dependencies: Python 3.8+ standard library only.
@@ -35,7 +35,7 @@ IMAP_PORT = 993
 SMTP_HOST = "smtp.gmail.com"
 SMTP_PORT = 465
 
-PROCESSED_LABEL = "📄 Facturas/Procesado"
+PROCESSED_LABEL = "BondaFacturas/Procesado"
 
 
 def _sanitize_app_password(pw: str) -> str:
@@ -119,7 +119,7 @@ class GmailInvoiceClient:
         """Search the inbox for invoice candidates.
 
         Uses Gmail's X-GM-RAW IMAP extension to leverage native Gmail search:
-            from:(a@x OR b@y) after:YYYY/MM/DD -label:"📄 Facturas/Procesado"
+            from:(a@x OR b@y) after:YYYY/MM/DD -label:"BondaFacturas/Procesado"
 
         Returns:
             List of UIDs (bytes) ordered as Gmail returns them.

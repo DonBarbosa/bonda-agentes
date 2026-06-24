@@ -29,7 +29,7 @@ Optional fiscal data overrides (defaults below):
     BONDA_FISCAL_REGIME          (empty — Roger should fill)
     BONDA_FISCAL_CFDI_USE        G03
 
-Idempotency: processed emails get the Gmail label "📄 Facturas/Procesado"
+Idempotency: processed emails get the Gmail label "BondaFacturas/Procesado"
 and are skipped on subsequent runs.
 """
 

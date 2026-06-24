@@ -114,7 +114,7 @@ For each candidate the script:
 1. Fetches the email
 2. Extracts PDF attachments
 3. Forwards via SMTP to `facturacion@steviabonda.com.mx` with the fiscal block
-4. Tags the original email with Gmail label `📄 Facturas/Procesado`
+4. Tags the original email with Gmail label `BondaFacturas/Procesado`
 5. The label excludes the email from future searches → idempotent
 
 ### Live run — Anthropic only (most conservative)
@@ -146,8 +146,8 @@ To change the list, edit `SENDERS_ALL` in `scripts/invoice_fetcher.py`.
 
 ## How idempotency works
 
-Each email forwarded gets the Gmail label `📄 Facturas/Procesado`.
-The IMAP search query excludes that label (`-label:"📄 Facturas/Procesado"`),
+Each email forwarded gets the Gmail label `BondaFacturas/Procesado`.
+The IMAP search query excludes that label (`-label:"BondaFacturas/Procesado"`),
 so:
 
 - Re-running with the same `--since` is **safe** — already-forwarded emails
