@@ -31,7 +31,7 @@ Org Make: **Bonda Alimentos** · Team `My Team` (985684) · zona `eu1`.
 | `ml_get_promotions` / `ml_get_notifications_status` | Promoções / notificações |
 | `ml_prices_batch_2` / `ml_prices_batch_3` | Preços em lote |
 
-### Odoo — 4 tools (conexão `BONDA Odoo sanos3` #7361751, todas read-only, HTTP 200)
+### Odoo — 5 tools (conexão `BONDA Odoo sanos3` #7361751, todas read-only, HTTP 200)
 
 | Tool | Função |
 |---|---|
@@ -39,13 +39,17 @@ Org Make: **Bonda Alimentos** · Team `My Team` (985684) · zona `eu1`.
 | `odoo_buscar_producto` | Produto por SKU/nome — inclui **custo, estoque, preço, imposto** |
 | `odoo_buscar_por_ref` | Produto por referência exata |
 | `odoo_status_pedido` | **NOVO (17/07)** — status de pedido de venta (sale.order): cliente, estado, total, data, entrega prometida |
+| `odoo_rastreabilidade_lote` | **NOVO (17/07)** — lote (stock.lot): produto, quantidade on-hand, data. Uso LAB/PEPS |
 
 > `odoo_buscar_producto` já devolve custo + estoque num só tool — por isso os
 > antigos scenarios "Custo Produto" e "Estoque Tempo Real" (OFF) não precisam
 > ser expostos separadamente.
-
-**Candidato de próximo tool Odoo (ainda não exposto):** `odoo_rastreabilidade_lote`
-(stock.lot) — caso a Grecia trabalhe com LAB/lotes. Diga se quer que eu construa.
+>
+> Nota técnica (lote): o Odoo desta conta (saas-19.2) **não tem o módulo
+> `product_expiry`**, então `stock.lot` não expõe `expiration_date`/`use_date`.
+> O `odoo_rastreabilidade_lote` usa só campos garantidos (name, product_id,
+> product_qty, create_date). Se instalarem `product_expiry`, dá pra acrescentar
+> validade num minuto.
 
 ---
 
@@ -81,7 +85,7 @@ https://eu1.make.com/mcp/api/v1/u/<TOKEN>/sse
 ```
 
 Essa URL expõe automaticamente **todos os scenarios on-demand** da conta —
-hoje são exatamente os 15 ML + 4 Odoo acima. Os scenarios de escrita
+hoje são exatamente os 15 ML + 5 Odoo acima (20 tools). Os scenarios de escrita
 (ex.: criar cotação/draft) estão **OFF**, então o conector é read-only por ora.
 
 > Segurança: essa URL contém um token com acesso aos tools da conta do Roger.
@@ -91,9 +95,12 @@ hoje são exatamente os 15 ML + 4 Odoo acima. Os scenarios de escrita
 
 ## Checklist para "concluído"
 
-- [x] Odoo ao vivo (200) — 4 tools read-only
+- [x] Odoo ao vivo (200) — 5 tools read-only
 - [x] Mercado Libre ao vivo (200) — 15 tools
 - [x] `odoo_status_pedido` criado, ativado e testado
+- [x] `odoo_rastreabilidade_lote` criado, ativado e testado
 - [ ] Conector do Make habilitado no seat da Grecia (Caminho A ou B) — **Roger/Grecia**
 - [ ] Grecia confirma que vê os tools no chat dela
-- [ ] (opcional) `odoo_rastreabilidade_lote` se necessário para LAB
+
+Tudo que dependia de mim (lado Make) está feito e verde. O único item aberto é
+a ação de UI no Claude Team — que só o admin (Roger) ou a Grecia conseguem fazer.
