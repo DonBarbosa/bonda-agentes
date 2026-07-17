@@ -37,7 +37,7 @@ Org Make: **Bonda Alimentos** · Team `My Team` (985684) · zona `eu1`.
 |---|---|
 | `odoo_buscar_cliente` | Cliente por nome (res.partner) |
 | `odoo_buscar_producto` | Produto por SKU/nome — inclui **custo, estoque, preço, imposto** |
-| `odoo_buscar_por_ref` | Produto por referência exata |
+| `odoo_buscar_por_ref` | Cotização/pedido (sale.order) por `client_order_ref` exato |
 | `odoo_status_pedido` | **NOVO (17/07)** — status de pedido de venta (sale.order): cliente, estado, total, data, entrega prometida |
 | `odoo_rastreabilidade_lote` | **NOVO (17/07)** — lote (stock.lot): produto, quantidade on-hand, data. Uso LAB/PEPS |
 
