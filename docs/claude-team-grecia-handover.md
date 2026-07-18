@@ -75,21 +75,31 @@ Feito pelo Roger (admin do Team):
 2. Cola a mesma URL MCP do Make.
 3. Liga o conector no chat.
 
-### Onde pegar a URL MCP do Make
+### A URL MCP do Make (formato novo — MCP Toolbox)
 
-No Make (conta do Roger, dona dos scenarios): **Profile → MCP token** (ou
-seção MCP/API). Copie a URL exibida — formato:
+Esta conta **não** usa o formato legado `/u/<TOKEN>/sse`. Usa o formato novo de
+**MCP Toolbox**. O conector é a toolbox **"Bonda OS"**:
 
 ```
-https://eu1.make.com/mcp/api/v1/u/<TOKEN>/sse
+https://eu1.make.com/mcp/server/a6b58cdf-2940-440b-9339-b3f6329b2506
 ```
 
-Essa URL expõe automaticamente **todos os scenarios on-demand** da conta —
-hoje são exatamente os 15 ML + 5 Odoo acima (20 tools). Os scenarios de escrita
-(ex.: criar cotação/draft) estão **OFF**, então o conector é read-only por ora.
+Ao conectar, o Claude Team pede **OAuth do Make** — autorize com
+`marketing@steviabonda.com.mx`.
 
-> Segurança: essa URL contém um token com acesso aos tools da conta do Roger.
-> Compartilhe só com a Grecia. Para revogar depois, regenere o token no Make.
+**Importante — a toolbox é uma lista curada, não auto-inclui scenarios.** Em
+17/07 ela estava vazia (só um tool quebrado, "WABA FedEx Notificador"). Foi
+populada manualmente. Estado atual confirmado:
+
+- **18 tools da Grecia anexados** (13 `ml_` + 5 `odoo_`) ✅
+- **2 batch opcionais** — na UI chamam-se **"ML Prices Batch 2/3"** (não `ml_prices_batch_*`);
+  são helpers internos de preço (SKU list fixa, sem input), valor interativo baixo.
+- **"WABA FedEx Notificador"** — pré-existente, inativo/quebrado; ignorar ou remover.
+
+Só scenarios read-only foram anexados; os de escrita (CREATE/draft) ficam de fora.
+
+> Ao adicionar/remover um scenario on-demand desta toolbox, muda o que qualquer
+> cliente MCP dela alcança. Mantê-la só com read-only.
 
 ---
 
@@ -99,8 +109,11 @@ hoje são exatamente os 15 ML + 5 Odoo acima (20 tools). Os scenarios de escrita
 - [x] Mercado Libre ao vivo (200) — 15 tools
 - [x] `odoo_status_pedido` criado, ativado e testado
 - [x] `odoo_rastreabilidade_lote` criado, ativado e testado
-- [ ] Conector do Make habilitado no seat da Grecia (Caminho A ou B) — **Roger/Grecia**
+- [x] Toolbox "Bonda OS" populada com os 18 tools da Grecia (13 ml_ + 5 odoo_)
+- [ ] (opcional) anexar "ML Prices Batch 2/3" à toolbox
+- [ ] Conector "Bonda OS" adicionado no Claude Team e habilitado p/ Grecia — **Roger/Grecia**
 - [ ] Grecia confirma que vê os tools no chat dela
 
-Tudo que dependia de mim (lado Make) está feito e verde. O único item aberto é
-a ação de UI no Claude Team — que só o admin (Roger) ou a Grecia conseguem fazer.
+Backend + toolbox prontos e verdes. Aberto só a ação de UI no Claude Team
+(adicionar o conector e habilitar p/ Grecia) — que só o admin (Roger) ou a
+Grecia conseguem fazer.
